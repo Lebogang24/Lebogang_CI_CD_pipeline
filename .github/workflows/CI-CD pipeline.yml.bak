@@ -41,7 +41,7 @@ jobs:
           # Add your deployment steps here
           # For example, you might use a service like Azure App Service or AWS Elastic Beanstalk to deploy your app to staging.
           # Replace the following line with your actual deployment command.
-          echo "Deploying to staging..."
+          
 
   notify_on_failure:
     name: Notify on Failure
