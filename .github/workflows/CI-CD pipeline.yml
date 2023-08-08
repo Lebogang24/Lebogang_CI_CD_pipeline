@@ -1,35 +1,58 @@
-trigger:
-- main
+name: CI/CD Pipeline
 
-stages:
-- stage: Build
-  jobs:
-  - job: BuildJob
-    pool:
-      vmImage: 'windows-latest'
-    steps:
-    - script: npm install
-      displayName: 'Install Dependencies'
-    - script: npm run build
-      displayName: 'Build'
-    - script: npm test
-      displayName: 'Run Tests'
+on:
+  push:
+    branches:
+      - main
 
-- stage: DeployStaging
-  jobs:
-  - job: DeployJob
-    pool:
-      vmImage: 'windows-latest'
+jobs:
+  build_and_test:
+    name: Build and Test
+    runs-on: ubuntu-latest
+    
     steps:
-    - script: echo 'Deploy to staging environment'
-      displayName: 'Deploy to Staging'
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-- stage: Notify
-  jobs:
-  - job: NotificationJob
-    condition: failed()
-    pool:
-      vmImage: 'windows-latest'
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+      - name: Test
+        run: npm test
+
+  deploy_to_staging:
+    name: Deploy to Staging
+    needs: build_and_test
+    runs-on: ubuntu-latest
+    
     steps:
-    - script: echo 'Sending notification...'
-      displayName: 'Send Notification'
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Deploy to Staging
+        run: |
+          # Add your deployment steps here
+          # For example, you might use a service like Azure App Service or AWS Elastic Beanstalk to deploy your app to staging.
+          # Replace the following line with your actual deployment command.
+          echo "Deploying to staging..."
+
+  notify_on_failure:
+    name: Notify on Failure
+    needs: deploy_to_staging
+    runs-on: ubuntu-latest
+    
+    if: always() && (failure() || needs.deploy_to_staging.result == 'failure')
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Send Notification
+        run: |
+          # Add your notification logic here
+          # For example, you might use a messaging service like Slack or send an email to alert the team.
+          # Replace the following line with your actual notification command.
+          echo "Build or deployment failed! Notify the team."
