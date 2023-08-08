@@ -14,11 +14,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'  # Change this to the desired Node.js version
+
       - name: Install dependencies
         run: npm install
-        
-      - name: \Users\Bobo\Github repos\Lebogang_CI_CD_pipeline
-        run: \Users\Bobo\Github repos\Lebogang_CI_CD_pipeline\WebApplication1
 
       - name: Build
         run: npm run build
@@ -34,6 +36,11 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'  # Change this to the desired Node.js version
 
       - name: Deploy to Staging
         run: |
@@ -52,6 +59,11 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'  # Change this to the desired Node.js version
 
       - name: Send Notification
         run: |
