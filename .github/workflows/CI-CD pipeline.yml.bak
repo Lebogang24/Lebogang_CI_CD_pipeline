@@ -28,12 +28,16 @@ jobs:
     needs: build_and_test
     runs-on: windows-latest
     
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+   steps:
+  - name: Checkout code
+    uses: actions/checkout@v2
 
-      - name: Deploy to Staging
-        run: |
+  - name: Navigate to project directory
+    run: cd path/to/project
+
+  - name: Install dependencies
+    run: npm install
+|
           # Add your deployment steps here
           # For example, you might use a service like Azure App Service or AWS Elastic Beanstalk to deploy your app to staging.
           # Replace the following line with your actual deployment command.
