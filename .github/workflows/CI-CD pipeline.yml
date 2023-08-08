@@ -12,9 +12,12 @@ jobs:
     
     steps:
       - name: Checkout code
-        uses: actions/checkout
+        uses: actions/checkout@v2
 
-      - name: Install Dependencies
+      - name: Navigate to project directory
+        run: cd path/to/project
+
+      - name: Install dependencies
         run: npm install
 
       - name: Build
@@ -28,31 +31,33 @@ jobs:
     needs: build_and_test
     runs-on: windows-latest
     
-   steps:
-  - name: Checkout code
-    uses: actions/checkout@v2
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-  - name: Navigate to project directory
-    run: cd path/to/project
+      - name: Navigate to project directory
+        run: cd path/to/project
 
-  - name: Install dependencies
-    run: npm install
-|
+      - name: Deploy to Staging
+        run: |
           # Add your deployment steps here
           # For example, you might use a service like Azure App Service or AWS Elastic Beanstalk to deploy your app to staging.
           # Replace the following line with your actual deployment command.
-          
+          echo "Deploying to staging..."
 
   notify_on_failure:
     name: Notify on Failure
     needs: deploy_to_staging
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     
     if: always() && (failure() || needs.deploy_to_staging.result == 'failure')
     
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: Navigate to project directory
+        run: cd path/to/project
 
       - name: Send Notification
         run: |
