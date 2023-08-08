@@ -1,0 +1,35 @@
+trigger:
+- main
+
+stages:
+- stage: Build
+  jobs:
+  - job: BuildJob
+    pool:
+      vmImage: 'windows-latest'
+    steps:
+    - script: npm install
+      displayName: 'Install Dependencies'
+    - script: npm run build
+      displayName: 'Build'
+    - script: npm test
+      displayName: 'Run Tests'
+
+- stage: DeployStaging
+  jobs:
+  - job: DeployJob
+    pool:
+      vmImage: 'windows-latest'
+    steps:
+    - script: echo 'Deploy to staging environment'
+      displayName: 'Deploy to Staging'
+
+- stage: Notify
+  jobs:
+  - job: NotificationJob
+    condition: failed()
+    pool:
+      vmImage: 'windows-latest'
+    steps:
+    - script: echo 'Sending notification...'
+      displayName: 'Send Notification'
