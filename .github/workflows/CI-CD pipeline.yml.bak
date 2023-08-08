@@ -14,11 +14,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Navigate to project directory
-        run: cd path/to/project
-
       - name: Install dependencies
         run: npm install
+        
+      - name: \Users\Bobo\Github repos\Lebogang_CI_CD_pipeline
+        run: \Users\Bobo\Github repos\Lebogang_CI_CD_pipeline\WebApplication1
 
       - name: Build
         run: npm run build
@@ -35,9 +35,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Navigate to project directory
-        run: cd path/to/project
-
       - name: Deploy to Staging
         run: |
           # Add your deployment steps here
@@ -48,16 +45,13 @@ jobs:
   notify_on_failure:
     name: Notify on Failure
     needs: deploy_to_staging
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     
     if: always() && (failure() || needs.deploy_to_staging.result == 'failure')
     
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
-      - name: Navigate to project directory
-        run: cd path/to/project
 
       - name: Send Notification
         run: |
