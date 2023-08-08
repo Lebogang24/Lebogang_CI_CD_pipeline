@@ -6,68 +6,41 @@ on:
       - main
 
 jobs:
-  build_and_test:
-    name: Build and Test
+  build_and_deploy:
+    name: Build and Deploy
     runs-on: windows-latest
-    
+
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v2
 
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '14'  # Change this to the desired Node.js version
+          node-version: '14'
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Build
         run: npm run build
 
-      - name: Test
-        run: npm test
-
-  deploy_to_staging:
-    name: Deploy to Staging
-    needs: build_and_test
-    runs-on: windows-latest
-    
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'  # Change this to the desired Node.js version
-
-      - name: Deploy to Staging
+      - name: Deploy
         run: |
           # Add your deployment steps here
-          # For example, you might use a service like Azure App Service or AWS Elastic Beanstalk to deploy your app to staging.
-          # Replace the following line with your actual deployment command.
-          echo "Deploying to staging..."
+          # Replace this with your actual deployment commands
+          echo "Deploying..."
 
   notify_on_failure:
     name: Notify on Failure
-    needs: deploy_to_staging
+    needs: [build_and_deploy]
     runs-on: windows-latest
     
-    if: always() && (failure() || needs.deploy_to_staging.result == 'failure')
+    if: always() && (failure() || needs.build_and_deploy.result == 'failure')
     
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'  # Change this to the desired Node.js version
-
       - name: Send Notification
         run: |
           # Add your notification logic here
-          # For example, you might use a messaging service like Slack or send an email to alert the team.
-          # Replace the following line with your actual notification command.
+          # Replace this with your actual notification commands
           echo "Build or deployment failed! Notify the team."
