@@ -8,7 +8,7 @@ on:
 jobs:
   build_and_test:
     name: Build and Test
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     
     steps:
       - name: Checkout code
@@ -31,7 +31,7 @@ jobs:
   deploy_to_staging:
     name: Deploy to Staging
     needs: build_and_test
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     
     steps:
       - name: Checkout code
@@ -52,7 +52,7 @@ jobs:
   notify_on_failure:
     name: Notify on Failure
     needs: deploy_to_staging
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     
     if: always() && (failure() || needs.deploy_to_staging.result == 'failure')
     
