@@ -6,66 +6,55 @@ on:
       - main
 
 jobs:
-  build_and_test:
-    name: Build and Test
+  build:
     runs-on: windows-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1
         with:
-          node-version: '14'  # Keep this version consistent
+          msbuild-version: 'latest'
 
-      - name: Install dependencies
-        run: npm install
+      - name: Build application
+        run: msbuild ./Webapplication1/Webapplication1.sln /p:Configuration=Release
 
-      - name: Build
-        run: npm run build
-
-      - name: Test
-        run: npm test
-
-  deploy_to_staging:
-    name: Deploy to Staging
-    needs: build_and_test
+  test:
+    needs: build
     runs-on: windows-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1
         with:
-          node-version: '14'  # Keep this version consistent
+          msbuild-version: 'latest'
 
-      - name: Deploy to Staging
-        run: |
-          # Add your deployment steps here
-          # Replace the following line with your actual deployment command.
-          echo "Deploying to staging..."
+      - name: Build application
+        run: msbuild ./Webapplication1/Webapplication1.sln /p:Configuration=Release
 
-  notify_on_failure:
-    name: Notify on Failure
-    needs: deploy_to_staging
+      - name: Run tests (replace with actual test commands)
+        run: echo "Running tests..."
+
+  deploy:
+    needs: test
     runs-on: windows-latest
-    
-    if: always() && (failure() || needs.deploy_to_staging.result == 'failure')
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1
         with:
-          node-version: '14'  # Keep this version consistent
+          msbuild-version: 'latest'
 
-      - name: Send Notification
-        run: |
-          # Add your notification logic here
-          # Replace the following line with your actual notification command.
-          echo "Build or deployment failed! Notify the team."
+      - name: Build application
+        run: msbuild ./Webapplication1/Webapplication1.sln /p:Configuration=Release
+
+      - name: Deploy to staging (replace with actual deployment steps)
+        run: echo "Deploying to staging..."
