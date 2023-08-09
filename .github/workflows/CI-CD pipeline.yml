@@ -17,7 +17,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '14'  # Change this to the desired Node.js version
+          node-version: '14'  # Keep this version consistent
 
       - name: Install dependencies
         run: npm install
@@ -40,12 +40,11 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '12.0.2'  # Change this to the desired Node.js version
+          node-version: '14'  # Keep this version consistent
 
       - name: Deploy to Staging
         run: |
           # Add your deployment steps here
-          # For example, you might use a service like Azure App Service or AWS Elastic Beanstalk to deploy your app to staging.
           # Replace the following line with your actual deployment command.
           echo "Deploying to staging..."
 
@@ -63,11 +62,10 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '14'  # Change this to the desired Node.js version
+          node-version: '14'  # Keep this version consistent
 
       - name: Send Notification
         run: |
           # Add your notification logic here
-          # For example, you might use a messaging service like Slack or send an email to alert the team.
           # Replace the following line with your actual notification command.
           echo "Build or deployment failed! Notify the team."
