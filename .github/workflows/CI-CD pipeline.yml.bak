@@ -40,9 +40,9 @@ jobs:
       - name: Run tests (replace with actual test commands)
         run: echo "Running tests..."
 
-  deploy:
-    needs: test
-    runs-on: windows-latest
+    deploy:
+        needs: test
+        runs-on: windows-latest
 
     steps:
       - name: Checkout code
