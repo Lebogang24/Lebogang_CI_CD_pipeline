@@ -40,8 +40,8 @@ jobs:
       - name: Run tests (replace with actual test commands)
         run: echo "Running tests..."
 
-    deploy:
-        needs: test
+  deploy:
+    needs: test
     runs-on: windows-latest
 
     steps:
@@ -58,12 +58,13 @@ jobs:
 
       - name: Deploy to staging (replace with actual deployment steps)
         run: echo "Deploying to staging..."
-        
-    notify:
-        name: Notify team on success
-        runs-on: windows-latest
-        needs: [build, test, deploy]
 
+  notify:
+    needs: [build, test, deploy]
+    runs-on: windows-latest
+    if: ${{ always() }}
+
+    steps:
       - name: Check for build, test, or deployment success
         id: Check-status
         run: echo "Build, test, and deployment successful!"
