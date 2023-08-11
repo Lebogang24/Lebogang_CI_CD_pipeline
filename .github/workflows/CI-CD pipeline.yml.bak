@@ -64,7 +64,6 @@ jobs:
         runs-on: windows-latest
         needs: [build, test, deploy]
 
-    steps:
       - name: Check for build, test, or deployment success
         id: Check-status
         run: echo "Build, test, and deployment successful!"
